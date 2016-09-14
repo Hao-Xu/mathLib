@@ -10,7 +10,7 @@
 
 using namespace std;
 
-typedef vector<vector<double> > r2Tensor;
+//typedef vector<vector<double> > r2Tensor;
 
 
 
