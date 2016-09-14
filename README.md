@@ -1,0 +1,2 @@
+# mathLib
+C++ math library
