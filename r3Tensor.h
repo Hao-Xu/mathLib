@@ -164,7 +164,7 @@ template <class T>
 inline T** r3Tensor<T>::operator[](const int i) {
 #ifdef _CHECKBOUNDS_
 if (i<0 || i>=mm) {
-        throw("r3Tensor subscript out of bounds");
+        throwout("r3Tensor subscript out of bounds");
 }
 #endif
         return v[i];
@@ -174,7 +174,7 @@ template <class T>
 inline const T** r3Tensor<T>::operator[](const int i) const {
 #ifdef _CHECKBOUNDS_
 if (i<0 || i>=mm) {
-        throw("r3Tensor subscript out of bounds");
+        throwout("r3Tensor subscript out of bounds");
 }
 #endif
         return v[i];

@@ -39,7 +39,7 @@ template <class T>
 r2Tensor<T>::r2Tensor() : mm(0), nn(0), v(NULL) {}
 
 template <class T>
-r2Tensor<T>::r2Tensor(int m, int n) : mm(m), nn(n), v(n>0 ? new T*[m] : NULL)
+r2Tensor<T>::r2Tensor(int m, int n) : mm(m), nn(n), v(m>0 ? new T*[m] : NULL)
 {
 	int i,nel=m*n;
 	if (v) v[0] = nel>0 ? new T[nel] : NULL;
@@ -103,7 +103,7 @@ inline T* r2Tensor<T>::operator[](const int i)	//subscripting: pointer to row i
 {
 #ifdef _CHECKBOUNDS_
 if (i<0 || i>=mm) {
-	throw("r2Tensor subscript out of bounds");
+	throwout("r2Tensor subscript out of bounds");
 }
 #endif
 	return v[i];
@@ -114,7 +114,7 @@ inline const T* r2Tensor<T>::operator[](const int i) const
 {
 #ifdef _CHECKBOUNDS_
 if (i<0 || i>=mm) {
-	throw("r2Tensor subscript out of bounds");
+	throwout("r2Tensor subscript out of bounds");
 }
 #endif
 	return v[i];

@@ -84,7 +84,7 @@ inline T & r1Tensor<T>::operator[](const int i)	//subscripting
 {
 #ifdef _CHECKBOUNDS_
 if (i<0 || i>=nn) {
-	throw("r1Tensor subscript out of bounds");
+	throwout("r1Tensor subscript out of bounds");
 }
 #endif
 	return v[i];
@@ -95,7 +95,7 @@ inline const T & r1Tensor<T>::operator[](const int i) const	//subscripting
 {
 #ifdef _CHECKBOUNDS_
 if (i<0 || i>=nn) {
-	throw("r1Tensor subscript out of bounds");
+	throwout("r1Tensor subscript out of bounds");
 }
 #endif
 	return v[i];
