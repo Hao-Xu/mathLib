@@ -1,3 +1,8 @@
+// gaussj.h
+//   Gauss-Jordan Elimination Method.
+// History:
+// 2016/09/14  Hao Xu  First release
+
 #ifndef GAUSSJ_H
 #define GAUSSJ_H
 
