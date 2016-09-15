@@ -6,6 +6,11 @@
 #ifndef R3TENSOR_H
 #define R3TENSOR_H
 
+#include <stdexcept>
+#include "errInfo.h"
+
+#define _CHECKBOUNDS_ 1
+
 using namespace std;
 
 template<class T>
