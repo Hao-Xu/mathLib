@@ -29,7 +29,7 @@ struct Unsymmeig {
             if (!hessen) eltran();
             hqr2();
             balbak();
-            sortvecs();
+            //sortvecs();
         } else {
             hqr();
             sort();
@@ -87,6 +87,16 @@ void Unsymmeig::balbak()
     for (int i=0;i<n;i++)
         for (int j=0;j<n;j++)
             zz[i][j] *= scale[i];
+    for (int j=0;j<n;j++ ) {
+        double sum=0;
+        for (int i=0;i<n;i++){
+            sum+=zz[i][j]*zz[i][j];
+        }
+        sum=sqrt(sum);
+        for (int i=0;i<n;i++){
+            zz[i][j]/=sum;
+        }
+    }
 }
 void Unsymmeig::elmhes()
 {
