@@ -1,15 +1,25 @@
+// gaussj.h
+//   Gauss-Jordan Elimination Method.
+// History:
+// 2016/09/14  Hao Xu  First release
+
 #ifndef GAUSSJ_H
 #define GAUSSJ_H
 
-#include<vector>
-#include<iostream>
+#include<cmath>
+#include "arithmetic.h"
+#include "r1Tensor.h"
+#include "r2Tensor.h"
+#include "errInfo.h"
 
 using namespace std;
 
-void gaussj(double (&a)[][], MatDoub_IO &b) {
-    int i,icol,irow,j,k,l,ll,n=a.nrows(),m=b.ncols();
+void gaussj(r2Tensor<double> &a, r2Tensor<double> &b, r2Tensor<double> &ainv) {
+    int i,icol,irow,j,k,l,ll,n=a.dim1(),m=b.dim2(),n2=a.dim2();
     double big,dum,pivinv;
-    vector<int> indxc(n),indxr(n),ipiv(n);
+    r1Tensor<int> indxc(n),indxr(n),ipiv(n);
+    r2Tensor<double> a0(n,n2);
+    a0 = a;
     for (j=0;j<n;j++) ipiv[j]=0;
     for (i=0;i<n;i++) {
         big=0.0;
@@ -27,6 +37,7 @@ void gaussj(double (&a)[][], MatDoub_IO &b) {
             }
         ++(ipiv[icol]);
 
+
         if (irow != icol) {
             for (l=0;l<n;l++) SWAP(a[irow][l],a[icol][l]);
             for (l=0;l<m;l++) SWAP(b[irow][l],b[icol][l]);
@@ -34,7 +45,7 @@ void gaussj(double (&a)[][], MatDoub_IO &b) {
         indxr[i]=irow;
 
         indxc[i]=icol;
-        if (a[icol][icol] == 0.0) throw("gaussj: Singular Matrix");
+        if (a[icol][icol] == 0.0) throwout("gaussj: Singular Matrix");
         pivinv=1.0/a[icol][icol];
         a[icol][icol]=1.0;
         for (l=0;l<n;l++) a[icol][l] *= pivinv;
@@ -54,11 +65,16 @@ void gaussj(double (&a)[][], MatDoub_IO &b) {
             for (k=0;k<n;k++)
                 SWAP(a[k][indxr[l]],a[k][indxc[l]]);
     }
+    ainv = a;
+    a = a0;
+
 }
 
-void gaussj(MatDoub_IO &a) {
-    MatDoub b(a.nrows(),0);
-    gaussj(a,b);
+
+void gaussj(r2Tensor<double> &a,r2Tensor<double> &ainv) {
+    r2Tensor<double> b(a.dim1(),0);
+    gaussj(a,b,ainv);
 }
+
 
 #endif

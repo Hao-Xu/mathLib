@@ -6,6 +6,11 @@
 #ifndef R3TENSOR_H
 #define R3TENSOR_H
 
+#include <stdexcept>
+#include "errInfo.h"
+
+#define _CHECKBOUNDS_ 1
+
 using namespace std;
 
 template<class T>
@@ -159,7 +164,7 @@ template <class T>
 inline T** r3Tensor<T>::operator[](const int i) {
 #ifdef _CHECKBOUNDS_
 if (i<0 || i>=mm) {
-        throw("r3Tensor subscript out of bounds");
+        throwout("r3Tensor subscript out of bounds");
 }
 #endif
         return v[i];
@@ -169,7 +174,7 @@ template <class T>
 inline const T** r3Tensor<T>::operator[](const int i) const {
 #ifdef _CHECKBOUNDS_
 if (i<0 || i>=mm) {
-        throw("r3Tensor subscript out of bounds");
+        throwout("r3Tensor subscript out of bounds");
 }
 #endif
         return v[i];

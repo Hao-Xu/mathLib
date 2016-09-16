@@ -6,6 +6,11 @@
 #ifndef R2TENSOR_H
 #define R2TENSOR_H
 
+#include <stdexcept>
+#include "errInfo.h"
+
+#define _CHECKBOUNDS_ 1
+
 using namespace std;
 
 template <class T>
@@ -17,7 +22,7 @@ public:
 	r2Tensor(int m, int n, const T *a);	// Initialize to array
 	r2Tensor(const r2Tensor &rhs);		// Copy constructor
 	r2Tensor & operator=(const r2Tensor &rhs);	//assignment
-	typedef T value_type; // make T available externally
+	//typedef T value_type; // make T available externally
 	inline T* operator[](const int i);	//subscripting: pointer to row i
 	inline const T* operator[](const int i) const;
 	inline int dim1() const;
@@ -34,7 +39,7 @@ template <class T>
 r2Tensor<T>::r2Tensor() : mm(0), nn(0), v(NULL) {}
 
 template <class T>
-r2Tensor<T>::r2Tensor(int m, int n) : mm(m), nn(n), v(n>0 ? new T*[m] : NULL)
+r2Tensor<T>::r2Tensor(int m, int n) : mm(m), nn(n), v(m>0 ? new T*[m] : NULL)
 {
 	int i,nel=m*n;
 	if (v) v[0] = nel>0 ? new T[nel] : NULL;
@@ -98,7 +103,7 @@ inline T* r2Tensor<T>::operator[](const int i)	//subscripting: pointer to row i
 {
 #ifdef _CHECKBOUNDS_
 if (i<0 || i>=mm) {
-	throw("r2Tensor subscript out of bounds");
+	throwout("r2Tensor subscript out of bounds");
 }
 #endif
 	return v[i];
@@ -109,8 +114,7 @@ inline const T* r2Tensor<T>::operator[](const int i) const
 {
 #ifdef _CHECKBOUNDS_
 if (i<0 || i>=mm) {
-	//throw runtime_error("r2Tensor subscript out of bounds");
-	throw("r2Tensor subscript out of bounds");
+	throwout("r2Tensor subscript out of bounds");
 }
 #endif
 	return v[i];
