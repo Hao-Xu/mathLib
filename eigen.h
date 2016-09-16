@@ -550,3 +550,5 @@ void Unsymmeig::sortvecs()
             zz[k][i+1]=temp[k];
     }
 }
+
+#endif /* EIGEN_H */
