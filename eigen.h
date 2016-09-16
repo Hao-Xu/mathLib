@@ -1,3 +1,8 @@
+// eigen.h
+//   Eigensystems from Numerical Recipes.
+// History:
+// 2016/09/15  Hao Xu  First release
+
 #ifndef EIGEN_H
 #define EIGEN_H
 
