@@ -32,7 +32,6 @@ template<class T>
 void vectorToTensor(const r1Tensor<T> &vector, r2Tensor<T> &tensor, const double & Fact) {
     int ntens = vector.size();
     int m = 3;
-    tensor = 0;
 
     tensor[0][0] = vector[0];
     tensor[1][1] = vector[1];
@@ -44,11 +43,6 @@ void vectorToTensor(const r1Tensor<T> &vector, r2Tensor<T> &tensor, const double
     tensor[2][1] = tensor[1][2]; 
     tensor[0][2] = vector[5]*Fact;
     tensor[2][0] = tensor[0][2]; 
-
-    tensor[1][2] = 0.; 
-    tensor[2][1] = 0.; 
-    tensor[0][2] = 0.; 
-    tensor[2][0] = 0.; 
 
 }
 
