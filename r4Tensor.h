@@ -1,5 +1,5 @@
 // r4Tensor.h
-//   4th order tensor stored in 4444mension array.
+//   4th order tensor stored in 4 dimension array.
 // History:
 // 2016/09/14  Hao Xu  First release
 
@@ -47,6 +47,7 @@ r4Tensor<T>::r4Tensor(int m, int n, int k, int l):mm(m), nn(n), kk(k), ll(l),
     v[0] = new T**[m*n];
     v[0][0] = new T*[m*n*k];
     v[0][0][0] = new T[m*n*k*l];
+/*
     for (p=1; p<k; p++) {
         v[0][0][p] = v[0][0][p-1] + l;  
     }
@@ -61,7 +62,7 @@ r4Tensor<T>::r4Tensor(int m, int n, int k, int l):mm(m), nn(n), kk(k), ll(l),
         v[i] = v[i-1] + n;  
         v[i][0] = v[i-1][0] + n*k;  
         v[i][0][0] = v[i-1][0][0] + n*k*l;  
-        for (p=1; p<k; p++) {v[i][0][p] = v[i-1][0][p] + l;}  
+        for (p=1; p<k; p++) {v[i][0][p] = v[i][0][p-1] + l;}  
         for (j=1; j<n; j++) {
             v[i][j] = v[i][j-1] + k;
             v[i][j][0] = v[i][j-1][0] + k*l;
@@ -70,15 +71,35 @@ r4Tensor<T>::r4Tensor(int m, int n, int k, int l):mm(m), nn(n), kk(k), ll(l),
             }         
         }
     }
+*/
+    for (i=0;i<m;i++){
+        if (i<m-1) {
+            v[i+1] = v[i] + n;
+            v[i+1][0] = v[i][0] + n*k;
+            v[i+1][0][0] = v[i][0][0] + n*k*l;
+        }
+        for (j=0;j<n;j++){
+            if (j<n-1) {
+                v[i][j+1] = v[i][j] + k;
+                v[i][j+1][0] = v[i][j][0] + k*l;
+            }
+            for (p=0;p<k;p++){
+                if (p<k-1) { v[i][j][p+1] = v[i][j][p] + l;}
+            }
+        }
+    }
 }
 
 template<class T>
 r4Tensor<T>::r4Tensor(int m, int n, int k, int l, const T &a):
              mm(m), nn(n), kk(k), ll(l), v(new T***[m]) {
     int  i, j, p, q;
+   
     v[0] = new T**[m*n];
     v[0][0] = new T*[m*n*k];
     v[0][0][0] = new T[m*n*k*l];
+
+/*
     for (p=1; p<k; p++) {
         v[0][0][p] = v[0][0][p-1] + l;  
     }
@@ -93,15 +114,33 @@ r4Tensor<T>::r4Tensor(int m, int n, int k, int l, const T &a):
         v[i] = v[i-1] + n;  
         v[i][0] = v[i-1][0] + n*k;  
         v[i][0][0] = v[i-1][0][0] + n*k*l;  
-        for (p=1; p<k; p++) v[i][0][p] = v[i-1][0][p] + l;  
+        for (p=1; p<k; p++) v[i][0][p] = v[i][0][p-1] + l;  
         for (j=1; j<n; j++) {
             v[i][j] = v[i][j-1] + k;
             v[i][j][0] = v[i][j-1][0] + k*l;
             for (p=1; p<k; p++) {
-                v[i][j][p] = v[i][j][p] + l;
+                v[i][j][p] = v[i][j][p-1] + l;
             }         
         }
     }
+*/
+    for (i=0;i<m;i++){
+        if (i<m-1) {
+            v[i+1] = v[i] + n;
+            v[i+1][0] = v[i][0] + n*k;
+            v[i+1][0][0] = v[i][0][0] + n*k*l;
+        }
+        for (j=0;j<n;j++){
+            if (j<n-1) {
+                v[i][j+1] = v[i][j] + k;
+                v[i][j+1][0] = v[i][j][0] + k*l;
+            }
+            for (p=0;p<k;p++){
+                if (p<k-1) { v[i][j][p+1] = v[i][j][p] + l;}
+            }
+        }
+    }
+
     for (i=0; i<m; i++) {
         for (j=0; j<n; j++) {
             for (p=0; p<k; p++) {
@@ -134,12 +173,12 @@ r4Tensor<T>::r4Tensor(int m, int n, int k, int l, const T *a):
         v[i] = v[i-1] + n;  
         v[i][0] = v[i-1][0] + n*k;  
         v[i][0][0] = v[i-1][0][0] + n*k*l;  
-        for (p=1; p<k; p++) v[i][0][p] = v[i-1][0][p] + l;  
+        for (p=1; p<k; p++) v[i][0][p] = v[i][0][p-1] + l;  
         for (j=1; j<n; j++) {
             v[i][j] = v[i][j-1] + k;
             v[i][j][0] = v[i][j-1][0] + k*l;
             for (p=1; p<k; p++) {
-                v[i][j][p] = v[i][j][p] + l;
+                v[i][j][p] = v[i][j][p-1] + l;
             }         
         }
     }
@@ -176,12 +215,12 @@ r4Tensor<T>::r4Tensor(const r4Tensor &rhs):
         v[i] = v[i-1] + nn;  
         v[i][0] = v[i-1][0] + nn*kk;  
         v[i][0][0] = v[i-1][0][0] + nn*kk*ll;  
-        for (p=1; p<kk; p++) v[i][0][p] = v[i-1][0][p] + ll;  
+        for (p=1; p<kk; p++) v[i][0][p] = v[i][0][p-1] + ll;  
         for (j=1; j<nn; j++) {
             v[i][j] = v[i][j-1] + kk;
             v[i][j][0] = v[i][j-1][0] + kk*ll;
             for (p=1; p<kk; p++) {
-                v[i][j][p] = v[i][j][p] + ll;
+                v[i][j][p] = v[i][j][p-1] + ll;
             }         
         }
     }
