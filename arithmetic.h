@@ -30,8 +30,6 @@ inline void SWAP(T &a, T &b) {T dum=a; a=b; b=dum;}
 
 template<class T>
 void vectorToTensor(const r1Tensor<T> &vector, r2Tensor<T> &tensor, const double & Fact) {
-    int ntens = vector.size();
-    int m = 3;
 
     tensor[0][0] = vector[0];
     tensor[1][1] = vector[1];
